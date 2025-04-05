@@ -1,0 +1,20 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+    <h2 class="text-2xl font-bold mb-4 text-center">Registro</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <input formControlName="fullName" placeholder="Nombre completo" class="w-full p-2 border rounded" />
+      <input formControlName="username" placeholder="Nombre de usuario" class="w-full p-2 border rounded" />
+      <input formControlName="email" placeholder="Correo electrónico" class="w-full p-2 border rounded" />
+      <input type="password" formControlName="password" placeholder="Contraseña" class="w-full p-2 border rounded" />
+      <input type="password" formControlName="confirmPassword" placeholder="Confirmar contraseña" class="w-full p-2 border rounded" />
+      
+      <label class="flex items-center space-x-2">
+        <input type="checkbox" formControlName="recaptcha" />
+        <span>No soy un robot (fake ReCaptcha)</span>
+      </label>
+  
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">
+        Registrarse
+      </button>
+    </form>
+  </div>
+  
