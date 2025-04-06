@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,15 @@ export class YoutubeService {
   constructor(private http: HttpClient) {}
 
   saveFavorite(data: any): Observable<any> {
-    return this.http.post('http://localhost:3000/api/favorites', data);
+    return this.http.post('https://innovatube-production.up.railway.app/api/favorites', data);
   }
   
   getFavorites(username: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/favorites/${username}`);
+    return this.http.get(`https://innovatube-production.up.railway.app/api/favorites/${username}`);
   }
   
   removeFavorite(data: any): Observable<any> {
-    return this.http.request('delete', 'http://localhost:3000/api/favorites', { body: data });
+    return this.http.request('delete', 'https://innovatube-production.up.railway.app/api/favorites', { body: data });
   }
   
   searchVideos(query: string): Observable<any> {
