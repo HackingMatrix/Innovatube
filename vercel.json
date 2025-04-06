@@ -1,0 +1,17 @@
+{
+    "projects": {
+      "innovatube-frontend": {
+        "framework": "angular",
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist/innovatube-frontend",
+        "rootDirectory": "innovatube-frontend"
+      }
+    },
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  
