@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,8 +12,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  successMessage = '';
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
       username: ['', Validators.required],
@@ -23,11 +27,27 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      console.log('Formulario válido:', this.registerForm.value);
-      // Aquí haremos el llamado al backend
-    } else {
-      console.log('Formulario inválido');
+    if (this.registerForm.invalid) {
+      this.errorMessage = 'Por favor llena todos los campos correctamente';
+      return;
     }
+
+    const { fullName, username, email, password } = this.registerForm.value;
+
+    this.authService.register({ fullName, username, email, password })
+  .subscribe({
+    next: (res) => {
+      this.successMessage = 'Registro exitoso ✅ Redirigiendo al login...';
+      this.errorMessage = '';
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 1500);
+    },
+    error: (err) => {
+      this.errorMessage = err.error?.message || 'Error en el registro';
+      this.successMessage = '';
+    }
+  });
+
   }
 }

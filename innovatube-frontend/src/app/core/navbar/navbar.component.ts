@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css'
 })
 
-export class NavbarComponent {
-  loggedIn = true;
-  username = 'Juanito';
+export class NavbarComponent implements OnInit {
+  loggedIn = false;
+  username: string | null = null;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.loggedIn$.subscribe(isLogged => {
+      this.loggedIn = isLogged;
+      this.username = localStorage.getItem('username');
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }

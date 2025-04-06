@@ -4,14 +4,16 @@
       <a routerLink="/" class="hover:underline">Inicio</a>
       <a routerLink="/search" class="hover:underline">Buscar</a>
       <a routerLink="/favorites" class="hover:underline">Favoritos</a>
-      
-      <ng-container *ngIf="loggedIn; else loginLink">
+  
+      <ng-container *ngIf="loggedIn; else authLinks">
         <span class="text-sm">👤 {{ username }}</span>
-        <a href="#" class="ml-2 hover:underline">Cerrar sesión</a>
+        <button (click)="logout()" class="ml-2 hover:underline">Cerrar sesión</button>
       </ng-container>
       
-      <ng-template #loginLink>
+  
+      <ng-template #authLinks>
         <a routerLink="/login" class="hover:underline">Login</a>
+        <a routerLink="/register" class="hover:underline">Registro</a> <!-- 🔥 Aquí -->
       </ng-template>
     </div>
   </nav>

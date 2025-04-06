@@ -1,1 +1,25 @@
-<div class="text-center mt-10 text-2xl">🔎 Buscador de videos (próximamente)</div>
+<div class="max-w-2xl mx-auto mt-10 px-4">
+    <h2 class="text-2xl font-bold mb-4 text-center">🔍 Buscador de Videos</h2>
+  
+    <div class="flex mb-6">
+      <input [(ngModel)]="searchTerm" placeholder="Busca un video..." class="flex-grow p-2 border rounded-l" />
+      <button (click)="search()" class="bg-blue-500 text-white px-4 py-2 rounded-r">Buscar</button>
+    </div>
+  
+    <div *ngIf="loading" class="text-center">Cargando resultados...</div>
+  
+    <div *ngIf="videos.length > 0" class="grid gap-4">
+      <div *ngFor="let video of videos" class="flex items-start space-x-4 border p-2 rounded shadow">
+        <img [src]="video.snippet.thumbnails.default.url" alt="thumb" class="w-32 h-20 rounded" />
+        <div>
+          <h3 class="font-bold text-lg">{{ video.snippet.title }}</h3>
+          <p class="text-sm text-gray-600">{{ video.snippet.channelTitle }}</p>
+          <a [href]="'https://www.youtube.com/watch?v=' + video.id.videoId" target="_blank" class="text-blue-500 text-sm underline">Ver en YouTube</a>
+          <button (click)="addToFavorites(video)" class="text-sm text-green-600 mt-2">
+            ❤️ Agregar a favoritos
+          </button>          
+        </div>
+      </div>
+    </div>
+  </div>
+  
