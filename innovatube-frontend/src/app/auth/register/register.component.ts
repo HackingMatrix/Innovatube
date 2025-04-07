@@ -50,14 +50,13 @@ export class RegisterComponent {
       this.successMessage = '';
     }
   });
-
-  }
-
-
-
-onCaptchaResolved(token: string) {
-  this.captchaToken = token;
-  // Puedes validar en el backend el token recibido si lo deseas.
 }
+
+onCaptchaResolved(token: string | null) {
+  if (token) {
+    this.captchaToken = token;
+  }
+}
+
 
 }
