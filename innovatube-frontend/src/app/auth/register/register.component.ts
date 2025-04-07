@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, FormsModule, RecaptchaModule, RecaptchaFormsModule],
+  imports: [ReactiveFormsModule, FormsModule, RecaptchaModule, RecaptchaFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -16,6 +17,7 @@ export class RegisterComponent {
   successMessage = '';
   errorMessage = '';
   captchaToken: string | null = null;
+  
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
@@ -23,8 +25,7 @@ export class RegisterComponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-      recaptcha: [false, Validators.requiredTrue]
+      confirmPassword: ['', Validators.required]
     });
   }
 
@@ -53,6 +54,7 @@ export class RegisterComponent {
 }
 
 onCaptchaResolved(token: string | null) {
+  console.log('Token del captcha resuelto:', token);
   if (token) {
     this.captchaToken = token;
   }

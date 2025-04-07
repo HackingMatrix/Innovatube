@@ -1,22 +1,64 @@
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
     <h2 class="text-2xl font-bold mb-4 text-center">Registro</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <input formControlName="fullName" placeholder="Nombre completo" class="w-full p-2 border rounded" />
-      <input formControlName="username" placeholder="Nombre de usuario" class="w-full p-2 border rounded" />
-      <input formControlName="email" placeholder="Correo electrónico" class="w-full p-2 border rounded" />
-      <input type="password" formControlName="password" placeholder="Contraseña" class="w-full p-2 border rounded" />
-      <input type="password" formControlName="confirmPassword" placeholder="Confirmar contraseña" class="w-full p-2 border rounded" />
-      
-      <label class="flex items-center space-x-2">
-        <input type="checkbox" formControlName="recaptcha" />
-        <re-captcha 
-  (resolved)="onCaptchaResolved($event)"
-  siteKey="6LfWUQwrAAAAAFudX9TlQguh5MKY3fmQWVqIkhoz">
-</re-captcha>
-
-      </label>
   
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">
+    <!-- Mensajes de éxito y error globales -->
+    <p *ngIf="successMessage" class="text-green-600 text-center mb-2">{{ successMessage }}</p>
+    <p *ngIf="errorMessage" class="text-red-600 text-center mb-2">{{ errorMessage }}</p>
+  
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+  
+      <!-- Nombre completo -->
+      <div>
+        <input formControlName="fullName" placeholder="Nombre completo" class="w-full p-2 border rounded" />
+        <div *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid" class="text-red-500 text-sm mt-1">
+          El nombre completo es obligatorio.
+        </div>
+      </div>
+  
+      <!-- Nombre de usuario -->
+      <div>
+        <input formControlName="username" placeholder="Nombre de usuario" class="w-full p-2 border rounded" />
+        <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid" class="text-red-500 text-sm mt-1">
+          El nombre de usuario es obligatorio.
+        </div>
+      </div>
+  
+      <!-- Correo -->
+      <div>
+        <input formControlName="email" placeholder="Correo electrónico" class="w-full p-2 border rounded" />
+        <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-red-500 text-sm mt-1">
+          <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
+          <span *ngIf="registerForm.get('email')?.errors?.['email']">Formato de correo inválido.</span>
+        </div>
+      </div>
+  
+      <!-- Contraseña -->
+      <div>
+        <input type="password" formControlName="password" placeholder="Contraseña" class="w-full p-2 border rounded" />
+        <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-red-500 text-sm mt-1">
+          <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</span>
+        </div>
+      </div>
+  
+      <!-- Confirmar contraseña -->
+      <div>
+        <input type="password" formControlName="confirmPassword" placeholder="Confirmar contraseña" class="w-full p-2 border rounded" />
+        <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="text-red-500 text-sm mt-1">
+          Debes confirmar tu contraseña.
+        </div>
+      </div>
+  
+      <!-- ReCAPTCHA -->
+      <div class="flex justify-center">
+        <re-captcha 
+          (resolved)="onCaptchaResolved($event)"
+          siteKey="6LfWUQwrAAAAAFudX9TlQguh5MKY3fmQWVqIkhoz">
+        </re-captcha>
+      </div>
+  
+      <!-- Botón -->
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600 transition">
         Registrarse
       </button>
     </form>

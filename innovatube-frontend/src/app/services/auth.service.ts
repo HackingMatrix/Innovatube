@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
   loggedIn$ = this.loggedInSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
@@ -25,6 +26,7 @@ export class AuthService {
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, data);
+    
   }
 
   forgotPassword(data: { email: string }) {
@@ -35,6 +37,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     this.loggedInSubject.next(false);
+    this.router.navigate(['/login']); // 👈 redirige al login
   }
 
   setLoggedInState() {

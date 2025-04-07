@@ -12,14 +12,16 @@ const validateCaptcha = async (token) => {
     body: `secret=${secretKey}&response=${token}`
   });
   const data = await response.json();
+  console.log('✅ Resultado de validación reCAPTCHA:', data);
   return data.success;
 };
 
 // ✅ Registro
 const register = async (req, res) => {
+    
   console.log('Cuerpo recibido:', req.body);
   const { fullName, username, email, password, recaptchaToken } = req.body;
-
+  console.log('🔐 Token recibido para reCAPTCHA:', recaptchaToken);
   // Validar ReCAPTCHA
   const isHuman = await validateCaptcha(recaptchaToken);
   if (!isHuman) {
@@ -31,7 +33,7 @@ const register = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = createUser({ fullName, username, email, password: hashedPassword });
-
+  console.log('⚠️ Usuario ya existe:', existing);
   res.status(201).json({ message: 'Usuario registrado', user: newUser });
 };
 
