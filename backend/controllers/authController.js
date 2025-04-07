@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const fetch = require('node-fetch');
 const { findUserByEmailOrUsername, createUser } = require('../models/userModel');
 
 // ✅ Validar reCAPTCHA con Google
