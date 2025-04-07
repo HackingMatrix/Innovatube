@@ -21,12 +21,16 @@ export class AuthService {
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, data);
-  }
+  }  
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, data);
   }
 
+  forgotPassword(data: { email: string }) {
+    return this.http.post(`${this.baseUrl}/forgot-password`, data);
+  }
+  
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');

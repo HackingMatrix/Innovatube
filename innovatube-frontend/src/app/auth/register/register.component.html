@@ -9,7 +9,11 @@
       
       <label class="flex items-center space-x-2">
         <input type="checkbox" formControlName="recaptcha" />
-        <span>No soy un robot (fake ReCaptcha)</span>
+        <re-captcha 
+  (resolved)="onCaptchaResolved($event)"
+  siteKey="6LfWUQwrAAAAAFudX9TlQguh5MKY3fmQWVqIkhoz">
+</re-captcha>
+
       </label>
   
       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">

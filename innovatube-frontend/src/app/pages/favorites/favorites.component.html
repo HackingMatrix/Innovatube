@@ -1,18 +1,21 @@
 <div class="max-w-2xl mx-auto mt-10 px-4">
     <h2 class="text-2xl font-bold mb-6 text-center">❤️ Tus favoritos</h2>
   
-    <div *ngIf="favorites.length === 0" class="text-center text-gray-500">No tienes favoritos aún</div>
+    <input [(ngModel)]="searchTerm" placeholder="Buscar en favoritos..."
+           class="w-full p-2 border rounded mb-4" />
   
-    <div *ngFor="let fav of favorites" class="flex items-start space-x-4 border p-2 rounded shadow mb-2">
+    <div *ngIf="filteredFavorites().length === 0" class="text-center text-gray-500">
+      No tienes favoritos que coincidan.
+    </div>
+  
+    <div *ngFor="let fav of filteredFavorites()" class="flex items-start space-x-4 border p-2 rounded shadow mb-2">
       <img [src]="fav.thumbnail" class="w-32 h-20 rounded" />
       <div>
         <h3 class="font-bold">{{ fav.title }}</h3>
         <p class="text-sm text-gray-600">{{ fav.channelTitle }}</p>
-        <a [href]="'https://www.youtube.com/watch?v=' + fav.videoId" target="_blank" class="text-blue-500 text-sm underline">Ver en YouTube</a>
-        <button (click)="removeFavorite(fav.videoId)" class="text-red-500 text-sm mt-2">
-            ❌ Eliminar
-          </button>
-          
+        <a [href]="'https://www.youtube.com/watch?v=' + fav.videoId" target="_blank"
+           class="text-blue-500 text-sm underline">Ver en YouTube</a>
+        <button (click)="removeFavorite(fav.videoId)" class="text-red-500 text-sm mt-2 block">❌ Eliminar</button>
       </div>
     </div>
   </div>

@@ -3,10 +3,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, RecaptchaModule, RecaptchaFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -14,6 +15,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   successMessage = '';
   errorMessage = '';
+  captchaToken: string | null = null;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
@@ -34,7 +36,7 @@ export class RegisterComponent {
 
     const { fullName, username, email, password } = this.registerForm.value;
 
-    this.authService.register({ fullName, username, email, password })
+    this.authService.register({ fullName, username, email, password, recaptchaToken: this.captchaToken })
   .subscribe({
     next: (res) => {
       this.successMessage = 'Registro exitoso ✅ Redirigiendo al login...';
@@ -50,4 +52,12 @@ export class RegisterComponent {
   });
 
   }
+
+
+
+onCaptchaResolved(token: string) {
+  this.captchaToken = token;
+  // Puedes validar en el backend el token recibido si lo deseas.
+}
+
 }

@@ -10,6 +10,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 })
 export class FavoritesComponent implements OnInit {
   favorites: any[] = [];
+  searchTerm: string = '';
 
   constructor(private youtubeService: YoutubeService) {}
 
@@ -22,21 +23,26 @@ export class FavoritesComponent implements OnInit {
       error: () => this.favorites = []
     });
   }
-  
+
+  filteredFavorites() {
+    if (!this.searchTerm.trim()) {
+      return this.favorites;
+    }
+    return this.favorites.filter(fav =>
+      fav.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
   removeFavorite(videoId: string) {
     const username = localStorage.getItem('username');
     if (!username) return;
-  
+
     const payload = { username, videoId };
-  
     this.youtubeService.removeFavorite(payload).subscribe({
       next: () => {
-        // Quitarlo de la lista local sin recargar
         this.favorites = this.favorites.filter(fav => fav.videoId !== videoId);
       },
-      error: () => {
-        alert('Error al eliminar el favorito ❌');
-      }
+      error: () => alert('Error al eliminar el favorito ❌')
     });
   }
   
