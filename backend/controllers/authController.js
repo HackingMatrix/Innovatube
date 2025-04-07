@@ -4,16 +4,16 @@ const crypto = require('crypto');
 const { findUserByEmailOrUsername, createUser } = require('../models/userModel');
 
 // ✅ Validar reCAPTCHA con Google
-const validateCaptcha = async (token) => {
-  const secretKey = process.env.RECAPTCHA_SECRET;
-  const response = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `secret=${secretKey}&response=${token}`
-  });
-  const data = await response.json();
-  return data.success;
-};
+// const validateCaptcha = async (token) => {
+//   const secretKey = process.env.RECAPTCHA_SECRET;
+//   const response = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//     body: `secret=${secretKey}&response=${token}`
+//   });
+//   const data = await response.json();
+//   return data.success;
+// };
 
 // ✅ Registro
 const register = async (req, res) => {
